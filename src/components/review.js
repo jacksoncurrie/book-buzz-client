@@ -1,10 +1,22 @@
 import React from "react";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-function Review() {
+function Review(props) {
+  const { reviewee, stars, review } = props;
+
   return (
-    <>
-      <h1>Review component</h1>
-    </>
+    <div className="review-card review-card--highlight1">
+      <h4 className="review-card__title">{reviewee}</h4>
+      <p className="review-card__rating">
+        {[...Array(stars)].map((i, j) => (
+          <span key={j}>
+            <FontAwesomeIcon icon={faStar} />
+          </span>
+        ))}
+      </p>
+      <div className="review-card__review">{review}</div>
+    </div>
   );
 }
 

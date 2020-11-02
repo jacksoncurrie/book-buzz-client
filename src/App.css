@@ -18,7 +18,7 @@ header > .logo {
   padding: 20px;
 }
 
-header > .btn {
+header > span {
   grid-area: add;
   align-self: center;
   justify-self: end;
@@ -142,7 +142,7 @@ section {
   grid-template-rows: 80px 400px auto;
 }
 
-section > .btn--icon {
+section > span {
   margin: 20px;
   justify-self: left;
   align-self: start;
@@ -191,13 +191,14 @@ section > .btn--icon {
   margin: 50px 20px 0 20px;
   justify-self: center;
   max-width: 700px;
+  width: calc(100% - 40px);
   display: grid;
   grid-template-rows: 40px auto;
 }
 
 .reviews__header {
   display: grid;
-  grid-template-columns: auto 40px;
+  grid-template-columns: auto 36.8px;
 }
 
 .reviews__title {
@@ -227,14 +228,19 @@ section > .btn--icon {
   font-size: 0.9em;
 }
 
-.review-card--highlight1 {
-  background-color: var(--highlight-color-3);
-  color: var(--highlight-color-3-text);
-}
-
-.review-card--highlight2 {
+.review-card--highlight1:nth-child(3n + 1) {
   background-color: var(--highlight-color-1);
   color: var(--highlight-color-1-text);
+}
+
+.review-card--highlight1:nth-child(3n + 2) {
+  background-color: var(--highlight-color-2);
+  color: var(--highlight-color-2-text);
+}
+
+.review-card--highlight1:nth-child(3n) {
+  background-color: var(--highlight-color-3);
+  color: var(--highlight-color-3-text);
 }
 
 .new-review {
@@ -298,7 +304,7 @@ textarea {
   column-gap: 20px;
 }
 
-.submit > .btn {
+.submit .btn {
   font-family: var(--content-font);
   font-weight: 400;
   padding: 10px 0;
@@ -310,7 +316,7 @@ textarea {
 }
 
 .add-book-page {
-  grid-template-rows: 80px 50px 80px 80px 120px 320px 45px;
+  grid-template-rows: 80px 50px 80px 80px 80px 320px 45px;
 }
 
 .add-book-page > div {

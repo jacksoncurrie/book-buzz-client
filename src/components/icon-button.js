@@ -2,12 +2,18 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function IconButton(props) {
+  const { icon, onButtonClicked } = props;
+
   return (
-    <button className="btn btn--icon mdc-ripple-surface">
-      <i className="fas fa-plus btn--icon__icon">
-        <FontAwesomeIcon icon={props.icon} />
-      </i>
-    </button>
+    <span>
+      <div>
+        <button className="btn btn--icon" onClick={onButtonClicked}>
+          <i className="fas fa-plus btn--icon__icon">
+            <FontAwesomeIcon icon={icon} />
+          </i>
+        </button>
+      </div>
+    </span>
   );
 }
 

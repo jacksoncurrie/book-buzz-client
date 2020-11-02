@@ -4,12 +4,13 @@ import Logo from "../bookbuzz.svg";
 import IconButton from "../components/icon-button";
 import SearchInput from "../components/search-input";
 
-function Header() {
+function Header(props) {
+  const { onNewPageClicked, onSearchChanged } = props;
   return (
     <header>
       <img className="logo" src={Logo} alt="Book Buzz logo" />
-      <SearchInput icon={faSearch} />
-      <IconButton icon={faPlus} />
+      <SearchInput icon={faSearch} onSearchChanged={onSearchChanged} />
+      <IconButton icon={faPlus} onButtonClicked={onNewPageClicked} />
     </header>
   );
 }
