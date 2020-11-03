@@ -11,6 +11,7 @@ import Footer from "../partials/footer";
 import Header from "../partials/header";
 import NewBookPage from "./new-book-page";
 import ViewBookPage from "./view-book-page";
+import { getBooks, addBook, addUser, addReview } from "../data/data";
 
 function HomePage() {
   const page = useSelector(selectPage);
@@ -20,22 +21,17 @@ function HomePage() {
   const [selectedBook, setSelectedBook] = useState({});
 
   useEffect(() => {
-    // Get the books
-    fetch(
-      search.trim().length === 0
-        ? "http://localhost:3000/books"
-        : `http://localhost:3000/books/search/${search}`
-    )
-      .then((res) => res.json())
-      .then((data) => setBooks(data));
+    getBooks(search).then((i) => setBooks(i));
   }, [search]);
 
   return (
     <>
-      <Header
-        onNewPageClicked={() => dispatch(setNewBook())}
-        onSearchChanged={(event) => setSearch(event.target.value)}
-      />
+      {page === 0 ? (
+        <Header
+          onNewPageClicked={() => dispatch(setNewBook())}
+          onSearchChanged={(event) => setSearch(event.target.value)}
+        />
+      ) : null}
 
       {page === 0 ? (
         <main>
@@ -45,7 +41,6 @@ function HomePage() {
               onCardClicked={() => {
                 dispatch(setViewBook());
                 setSelectedBook(i);
-                console.log(i);
               }}
               imageSrc={i.imageUrl}
               title={i.bookName}
@@ -56,12 +51,23 @@ function HomePage() {
       ) : null}
 
       {page === 1 ? (
-        <NewBookPage onBackClicked={() => dispatch(setHome())} />
+        <NewBookPage
+          onBackClicked={() => dispatch(setHome())}
+          onSaveClicked={(title, author, imageUrl, description) => {
+            addBook(title, author, imageUrl, description);
+            dispatch(setHome());
+          }}
+        />
       ) : null}
 
       {page === 2 ? (
         <ViewBookPage
+          bookId={selectedBook._id}
           onBackClicked={() => dispatch(setHome())}
+          onNewReview={async (bookId, email, name, rating, review) => {
+            let user = await addUser(email, name);
+            addReview(bookId, user._id, rating, review);
+          }}
           coverImg={selectedBook.imageUrl}
           title={selectedBook.bookName}
           author={selectedBook.author}
@@ -70,7 +76,7 @@ function HomePage() {
         />
       ) : null}
 
-      <Footer />
+      {page === 0 ? <Footer /> : null}
     </>
   );
 }

@@ -9,8 +9,8 @@ function Review(props) {
     <div className="review-card review-card--highlight1">
       <h4 className="review-card__title">{reviewee}</h4>
       <p className="review-card__rating">
-        {[...Array(stars)].map((i, j) => (
-          <span key={j}>
+        {[...Array(stars)].map((_, j) => (
+          <span className="star-icon" key={j}>
             <FontAwesomeIcon icon={faStar} />
           </span>
         ))}

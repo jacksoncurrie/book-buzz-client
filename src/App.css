@@ -84,6 +84,13 @@ footer > .copyright {
   align-self: center;
 }
 
+.input__error-text {
+  padding: 0;
+  margin: 0;
+  font-size: 0.8em;
+  color: #990000;
+}
+
 .book-card {
   align-self: start;
   margin: 20px;
@@ -150,9 +157,11 @@ section > span {
 
 .book-info {
   max-width: 700px;
+  width: calc(100% - 40px);
   justify-self: center;
   margin: 20px;
   display: grid;
+  grid-template-columns: 250px auto;
   grid-template-areas:
     "image text"
     "image text";
@@ -257,15 +266,12 @@ section > span {
   box-shadow: 0 5px 20px #555;
 }
 
-.input-stars__stars {
-  direction: rtl;
-  text-align: end;
+.star-icon {
+  padding-right: 5px;
 }
 
-.input-star:focus:before,
-.input-star:focus ~ .input-star:before {
-  content: "\f005";
-  font-weight: 900;
+.star-picker:hover {
+  cursor: pointer;
 }
 
 .visible-section {
@@ -280,7 +286,6 @@ section > span {
 textarea {
   resize: none;
   height: 250px;
-  margin-bottom: 20px;
 }
 
 .new-review__title {
@@ -316,7 +321,7 @@ textarea {
 }
 
 .add-book-page {
-  grid-template-rows: 80px 50px 80px 80px 80px 320px 45px;
+  grid-template-rows: 80px 50px 90px 90px 90px 320px 45px;
 }
 
 .add-book-page > div {
@@ -391,7 +396,7 @@ textarea {
 
 @media screen and (max-width: 560px) {
   .App {
-    grid-template-rows: 200px minmax(calc(100vh - 200px), auto) 100px;
+    grid-template-rows: 200px minmax(calc(100vh - 300px), auto) 100px;
   }
 
   header {
