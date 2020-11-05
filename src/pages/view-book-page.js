@@ -64,7 +64,6 @@ function ViewBookPage(props) {
       {newReview ? (
         <NewReview
           onSaveClicked={async (email, name, rating, review) => {
-            console.log(bookId, email, name, rating, review);
             setNewReview(false);
             onNewReview(bookId, email, name, rating, review);
           }}

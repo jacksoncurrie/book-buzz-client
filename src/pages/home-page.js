@@ -22,7 +22,7 @@ function HomePage() {
 
   useEffect(() => {
     getBooks(search).then((i) => setBooks(i));
-  }, [search]);
+  }, [search, page]);
 
   return (
     <>
@@ -66,7 +66,12 @@ function HomePage() {
           onBackClicked={() => dispatch(setHome())}
           onNewReview={async (bookId, email, name, rating, review) => {
             let user = await addUser(email, name);
-            addReview(bookId, user._id, rating, review);
+            let newReview = await addReview(bookId, user._id, rating, review);
+
+            setSelectedBook((prevState) => ({
+              ...prevState,
+              reviews: [...prevState.reviews, newReview],
+            }));
           }}
           coverImg={selectedBook.imageUrl}
           title={selectedBook.bookName}
