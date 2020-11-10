@@ -1,4 +1,4 @@
-const serverUrl = "http://localhost:3000";
+const serverUrl = "http://localhost:3001";
 
 export const getBooks = async (search) => {
   try {
@@ -30,16 +30,6 @@ export const addBook = async (title, author, imageUrl, description) => {
     });
     const data = await res.json();
     return data;
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-export const userExists = async (email) => {
-  try {
-    const res = await fetch(`${serverUrl}/user/exists/${email}`);
-    const data = await res.text();
-    return data === "true";
   } catch (error) {
     console.error(error);
   }

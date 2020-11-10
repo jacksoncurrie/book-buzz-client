@@ -53,8 +53,8 @@ function HomePage() {
       {page === 1 ? (
         <NewBookPage
           onBackClicked={() => dispatch(setHome())}
-          onSaveClicked={(title, author, imageUrl, description) => {
-            addBook(title, author, imageUrl, description);
+          onSaveClicked={async (title, author, imageUrl, description) => {
+            await addBook(title, author, imageUrl, description);
             dispatch(setHome());
           }}
         />
