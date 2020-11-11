@@ -11,7 +11,16 @@ import Footer from "../partials/footer";
 import Header from "../partials/header";
 import NewBookPage from "./new-book-page";
 import ViewBookPage from "./view-book-page";
-import { getBooks, addBook, addUser, addReview } from "../data/data";
+import {
+  getBooks,
+  addBook,
+  addUser,
+  addReview,
+  login,
+  setLoginToComputer,
+  getUserDetails,
+} from "../data/data";
+import LoginSignup from "../partials/login-signup";
 
 function HomePage() {
   const page = useSelector(selectPage);
@@ -19,6 +28,7 @@ function HomePage() {
   const [books, setBooks] = useState([]);
   const [search, setSearch] = useState("");
   const [selectedBook, setSelectedBook] = useState({});
+  const [requireLogin, setRequireLogin] = useState(false);
 
   useEffect(() => {
     getBooks(search).then((i) => setBooks(i));
@@ -28,7 +38,14 @@ function HomePage() {
     <>
       {page === 0 ? (
         <Header
-          onNewPageClicked={() => dispatch(setNewBook())}
+          onNewPageClicked={() => {
+            const userDetails = getUserDetails();
+            if (!userDetails.token || !userDetails.userId) {
+              setRequireLogin(true);
+              return;
+            }
+            dispatch(setNewBook());
+          }}
           onSearchChanged={(event) => setSearch(event.target.value)}
         />
       ) : null}
@@ -54,7 +71,14 @@ function HomePage() {
         <NewBookPage
           onBackClicked={() => dispatch(setHome())}
           onSaveClicked={async (title, author, imageUrl, description) => {
-            await addBook(title, author, imageUrl, description);
+            let userDetails = getUserDetails();
+            await addBook(
+              userDetails.token,
+              title,
+              author,
+              imageUrl,
+              description
+            );
             dispatch(setHome());
           }}
         />
@@ -64,9 +88,16 @@ function HomePage() {
         <ViewBookPage
           bookId={selectedBook._id}
           onBackClicked={() => dispatch(setHome())}
-          onNewReview={async (bookId, email, name, rating, review) => {
-            let user = await addUser(email, name);
-            let newReview = await addReview(bookId, user._id, rating, review);
+          onSetLoginRequired={() => setRequireLogin(true)}
+          onNewReview={async (bookId, rating, review) => {
+            let userDetails = getUserDetails();
+            let newReview = await addReview(
+              userDetails.token,
+              bookId,
+              userDetails.userId,
+              rating,
+              review
+            );
 
             setSelectedBook((prevState) => ({
               ...prevState,
@@ -78,6 +109,21 @@ function HomePage() {
           author={selectedBook.author}
           description={selectedBook.description}
           reviews={selectedBook.reviews}
+        />
+      ) : null}
+
+      {requireLogin ? (
+        <LoginSignup
+          onSaveClicked={async (register, email, password, name) => {
+            let result;
+            if (register) result = await addUser(email, name, password);
+            else result = await login(email, password);
+            if (!result) return false;
+            setLoginToComputer(result.token, result.userId);
+            setRequireLogin(false);
+            return true;
+          }}
+          onCancelClicked={() => setRequireLogin(false)}
         />
       ) : null}
 

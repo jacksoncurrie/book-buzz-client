@@ -266,6 +266,10 @@ section > span {
   box-shadow: 0 5px 20px #555;
 }
 
+.register-button {
+  margin-top: 20px;
+}
+
 .star-icon {
   padding-right: 5px;
 }
