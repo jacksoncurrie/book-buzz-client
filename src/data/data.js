@@ -1,4 +1,5 @@
-const serverUrl = "http://localhost:3001";
+// const serverUrl = "http://localhost:3001";
+const serverUrl = "https://bookbuzzwebapi.azurewebsites.net";
 
 export const getBooks = async (search) => {
   try {
